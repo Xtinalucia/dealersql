@@ -1,0 +1,417 @@
+CREATE TABLE mechanic(
+	mechanic_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	employee_email VARCHAR(100)
+);
+
+INSERT INTO mechanic(
+	first_name,
+	last_name,
+	employee_email
+)VALUES(
+		'matt',
+		'schoen',
+		'og1@dealermail.com'
+);
+INSERT INTO mechanic(
+	first_name,
+	last_name,
+	employee_email
+) VALUES(
+		'luca',
+		'marinelli',
+		'og2@dealermail.com'
+);
+INSERT INTO mechanic(
+	first_name,
+	last_name,
+	employee_email
+) VALUES(
+		'adam',
+		'collins',
+		'og3@dealermail.com'
+);
+SELECT *
+FROM mechanic;
+
+CREATE TABLE car_service(
+	service_ticket SERIAL PRIMARY KEY,
+	--FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+	vin_number VARCHAR(100),
+	--FOREIGN KEY(mechanic_id) REFERENCES mechanic(mechanic_id)
+	description VARCHAR(250),
+	payment_amount NUMERIC(8,2),
+	date_serviced TIMESTAMP
+	--FOREIGN KEY (part_id) REFERENCES parts(part_id)
+);
+
+ALTER TABLE car_service
+add column customer_id SERIAL,
+add constraint FK1
+FOREIGN KEY (customer_id)
+REFERENCES customers(customer_id);
+
+ALTER TABLE car_service
+add column mechanic_id SERIAL,
+add constraint FK2
+FOREIGN KEY (mechanic_id)
+REFERENCES mechanic(mechanic_id);
+
+ALTER TABLE car_service
+add column part_id SERIAL,
+add constraint FK3
+FOREIGN KEY (part_id)
+REFERENCES parts(part_id);
+
+INSERT INTO car_service(
+	vin_number, 
+	description, 
+	payment_amount, 
+	date_serviced
+)VALUES(
+	'wbaal12345az67890',
+	'oil change',
+	'150',
+	'"2020-09-23", "13:10:11"'
+);
+INSERT INTO car_service(
+	vin_number, 
+	description, 
+	payment_amount, 
+	date_serviced 
+)
+VALUES(
+	'wbaal67890az12345',
+	'muffler install',
+	'1400',
+	'"2021-06-23", "10:10:10"'
+);
+INSERT INTO car_service(
+	vin_number, 
+	description, 
+	payment_amount, 
+	date_serviced
+)VALUES(
+	'wbaal14345az67440',
+	'Horn install',
+	'1200',
+	'"2021-10-23", "14:10:01"'
+);
+SELECT *
+FROM car_service;
+
+CREATE TABLE parts(
+	part_id SERIAL PRIMARY KEY,
+	part_name VARCHAR(50),
+	description VARCHAR(250),
+	price NUMERIC(6,2),
+	quantity INTEGER
+);
+
+INSERT INTO parts(
+	part_name, 
+	description, 
+	price, 
+	quantity
+)VALUES(
+	'JW RedRock J100285',
+	'filter',
+	'100',
+	'1'
+);
+INSERT INTO parts(
+	part_name, 
+	description, 
+	price, 
+	quantity
+)VALUES(
+	'magnaflow 15658 chrome',
+	'muffler',
+	'1300',
+	'1'
+);
+INSERT INTO parts(
+	part_name, 
+	description, 
+	price, 
+	quantity
+)VALUES(
+	'kleinn 2200b',
+	'train horn',
+	'1000',
+	'1'
+);
+INSERT INTO parts(
+	part_name, 
+	description, 
+	price, 
+	quantity 
+)VALUES(
+	'compressor',
+	'acom for horn',
+	'300',
+	'1'
+);
+INSERT INTO parts(
+	part_name, 
+	description, 
+	price, 
+	quantity 
+)VALUES(
+	'amsoil5w30',
+	'oil',
+	'44',
+	'1'
+);
+SELECT *
+FROM parts;
+
+CREATE TABLE customers(
+	customer_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	phone_number VARCHAR(20),
+	email VARCHAR(50),
+	vin_number VARCHAR(100)
+);
+
+INSERT INTO customers(
+	first_name, 
+	last_name, 
+	phone_number,
+	email, 
+	vin_number 
+)VALUES(
+	'Joel',
+	'Barish',
+	'1234566960',
+	'cus1@rb.org',
+	'wbaal12345az67890'
+);
+INSERT INTO customers(
+	first_name, 
+	last_name, 
+	phone_number,
+	email, 
+	vin_number 
+)VALUES(
+	'Mary',
+	'Svevo',
+	'3124566900',
+	'cus2@rb.org',
+	'wbaal67890az12345'
+);
+INSERT INTO customers(
+	first_name, 
+	last_name, 
+	phone_number,
+	email, 
+	vin_number 
+)VALUES(
+	'David',
+	'Cross',
+	'1236086960',
+	'cus3@rb.org',
+	'wbaal14345az67440'
+);
+SELECT *
+FROM customers;
+
+CREATE TABLE salesperson(
+	sales_emp_id SERIAL,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	employee_email VARCHAR(100)
+);
+ALTER TABLE salesperson
+ADD PRIMARY KEY (sales_emp_id);
+
+
+INSERT INTO salesperson(
+	first_name, 
+	last_name, 
+	employee_email 
+)VALUES(
+	'Iris',
+	'Winslet',
+	'emp1@htp.com'
+);
+INSERT INTO salesperson(
+	first_name, 
+	last_name, 
+	employee_email 
+)VALUES(
+	'Miles',
+	'Black',
+	'emp2@htp.com'
+);
+INSERT INTO salesperson(
+	first_name, 
+	last_name, 
+	employee_email 
+)VALUES(
+	'Amanda',
+	'Diaz',
+	'emp3@htp.com'
+);
+INSERT INTO salesperson(
+	first_name, 
+	last_name, 
+	employee_email 
+)VALUES(
+	'Graham',
+	'Law',
+	'emp4@htp.com'
+);
+SELECT *
+FROM salesperson;
+
+CREATE TABLE car_invoice(
+	invoice_id SERIAL PRIMARY KEY,
+	--FOREIGN KEY (sales_emp_id) REFERENCES salesperson(sales_emp_id)
+	--FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+	--FOREIGN KEY (vin_number) REFERENCES car_inventory(vin_number)
+	date_created DATE
+);
+ALTER TABLE car_invoice
+add column sales_emp_id SERIAL,
+add constraint FK4
+FOREIGN KEY (sales_emp_id)
+REFERENCES salesperson(sales_emp_id);
+
+ALTER TABLE car_invoice
+add column customer_id SERIAL,
+add constraint FK5
+FOREIGN KEY (customer_id)
+REFERENCES customers(customer_id);
+
+ALTER TABLE car_invoice
+add column vin__number VARCHAR(100),
+add constraint FK6
+FOREIGN KEY (vin__number)
+REFERENCES car_inventory(vin__number);
+
+--INSERT INTO car_invoice(
+--	date_created, 
+--)
+--VALUES(
+--	""
+--);
+SELECT *
+FROM car_inventory;
+
+ALTER TABLE car_inventory
+RENAME COLUMN vin_number TO vin__number VARCHAR(100) PRIMARY KEY;
+
+
+CHECK(vin__number IS NOT NULL);
+
+CREATE TABLE car_inventory(
+	vin_number VARCHAR(100) PRIMARY KEY,
+	year_ INTEGER,
+	make VARCHAR(50),
+	model VARCHAR(50),
+	miles INTEGER,
+	used_or_new VARCHAR(5),
+	amount NUMERIC(10,2)
+);
+INSERT INTO car_inventory(
+	vin__number,
+	year_,
+	make,
+	model,
+	miles,
+	used_or_new,
+	amount
+)VALUES(
+	'wbaal14345az60000',
+	'2019',
+	'Jeep',
+	'wrangler',
+	'20000',
+	'used',
+	'35000'
+);
+INSERT INTO car_inventory(
+	vin__number,
+	year_,
+	make,
+	model,
+	miles,
+	used_or_new,
+	amount
+)VALUES(
+	'wbaal14345az61111',
+	'2021',
+	'LandRover',
+	'Defender',
+	'7',
+	'new',
+	'75000'
+);
+INSERT INTO car_inventory(
+	vin__number,
+	year_,
+	make,
+	model,
+	miles,
+	used_or_new,
+	amount
+)VALUES(
+	'wbaal14345az62222',
+	'2005',
+	'Mercedes',
+	'GWagon',
+	'132847',
+	'used',
+	'38000'
+);
+--PROCEDURE-- 
+--Update those who purchase their car w/ our dealership = complementary rental while car is being serviced
+--If there is a car_invoice as opposed to a service ticket they purchased a vehicle
+
+ALTER TABLE customers
+ADD COLUMN return_customer BOOLEAN DEFAULT FALSE;
+
+
+CREATE OR REPLACE PROCEDURE update_return_customer()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+		UPDATE customers
+		SET return_customer = true
+		WHERE customer_id IN(
+				SELECT customer_id
+			    FROM car_invoice
+				GROUP BY car_invoice.invoice_id
+				HAVING SUM(amount) > 100
+		
+		);
+END;
+$$
+CALL update_return_customer();
+
+
+--PROCEDURE-- 
+--Update employee ids so that $400,000 is sales recieves a bonus
+CREATE OR REPLACE PROCEDURE update_top_sales_id()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+		UPDATE salesperson
+		SET update_top_sales_id = true
+		WHERE sales_emp_id IN(
+				SELECT sales_emp_id
+			    FROM car_invoice
+				GROUP BY car_invoice.invoice_id
+				HAVING invoice_id > 400000
+		
+		);
+END;
+$$
+
+ALTER TABLE salesperson
+ADD COLUMN update_top_sales_id BOOLEAN DEFAULT FALSE;
+
+CALL update_top_sales_id();
